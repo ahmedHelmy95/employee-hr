@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Check;
 use App\Models\Leave;
@@ -19,28 +20,25 @@ class ApiController extends Controller
     public function check()
     {
         $employee = auth('api')->user();
-        if ($employee) {
-            if (null == Check::whereEmployeeId($employee->id)->latest()->first()) {
-                $check = ApiController::newAttandance($employee);
-                return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
-            } else {
-                if (Check::whereEmployeeId($employee->id)->latest()->first()->check_out !== null) {
-                    $check = ApiController::newAttandance($employee);
-                    return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
-                } else {
-                    $check = Check::whereEmployeeId($employee->id)->latest()->first();
-                    $check->check_out = date("Y-m-d H:i:s");
-                    $check->time = date("Y-m-d H:i:s");
-                    $check->status = 'out';
-                    $check->save();
-
-                    return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
-                }
-            }
+        $latest_check = Check::whereEmployeeId($employee->id)->whereDate('check_in', Carbon::today())->first();
+        if ($latest_check == null) {
+            $check = ApiController::newAttandance($employee);
+            return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
+        } else if ($latest_check->check_out !== null) {
+            $latest_check->check_out = date("Y-m-d H:i:s");
+            $latest_check->time = date("Y-m-d H:i:s");
+            $latest_check->status = 'out';
+            $latest_check->save();
+            return response()->json(['data' => new CheckResource($latest_check), 'success' => 'Successful in assign the leave'], 200);
+        } else { 
+            $latest_check->check_out = date("Y-m-d H:i:s");
+            $latest_check->time = date("Y-m-d H:i:s");
+            $latest_check->status = 'out';
+            $latest_check->save();
+            return response()->json(['data' => new CheckResource($latest_check), 'success' => 'Successful in assign the leave'], 200);
         }
-         
-    }
 
+    }
 
     public function newAttandance($employee)
     {
@@ -53,11 +51,12 @@ class ApiController extends Controller
         $check->save();
         return $check;
     }
-    public function MyStatus(){
+    public function MyStatus()
+    {
         $employee = auth('api')->user();
         $check = Check::whereEmployeeId($employee->id)->latest()->first();
-        return response()->json(['data' => new CheckResource($check), 
-        'success' => 'latest attendance status'], 200);
+        return response()->json(['data' => new CheckResource($check),
+            'success' => 'latest attendance status'], 200);
     }
 
     public function attendance(AttendanceEmp $request)
