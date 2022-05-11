@@ -58,7 +58,7 @@ class ApiController extends Controller
         $check = Check::whereEmployeeId($employee->id)->latest()->first();
         if(!$check){
             return response()->json(['data' => null,
-            'message' => 'latest attendance status','code'=>400], 400);
+            'message' => 'latest attendance status','code'=>200], 200);
         }
         return response()->json(['data' => new CheckResource($check),
             'message' => 'latest attendance status','code'=>200], 200);
