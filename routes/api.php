@@ -6,8 +6,6 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuhtController;
 use App\Http\Controllers\Api\LeaveTypeController;
 use App\Http\Controllers\Api\LeaveRequestController;
- 
- 
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +28,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('employees/check', [ApiController::class, 'check']);
     Route::get('employees/attendance/my-status', [ApiController::class, 'MyStatus']);
     Route::resource('leaveTypes', LeaveTypeController::class);
-    
     Route::patch('leaveRequests/approve/{leaveRequest}', [LeaveRequestController::class,'approve']);
     Route::patch('leaveRequests/refuse/{leaveRequest}', [LeaveRequestController::class,'refuse']);
+    Route::get('manager/requests', [LeaveRequestController::class,'managerRequets']);
     Route::resource('leaveRequests', LeaveRequestController::class);
+    Route::get('getLeaveSummary',[LeaveController::class,'getLeaveSummary']);
     
 });

@@ -28,9 +28,11 @@ class LeaveTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeaveTypeRequest $request)
     {
-        //
+        $leaveType = LeaveType::create($request->all());
+        return ['data' => new LeaveTypeResource($leaveType),
+            'message' => 'Created successfully', 'code' => 200];
     }
 
     /**
@@ -41,7 +43,8 @@ class LeaveTypeController extends Controller
      */
     public function show(LeaveType $leaveType)
     {
-        //
+        return ['data' => new LeaveTypeResource($leaveType),
+            'message' => 'created successfully', 'code' => 200];
     }
 
      
@@ -54,7 +57,9 @@ class LeaveTypeController extends Controller
      */
     public function update(Request $request, LeaveType $leaveType)
     {
-        //
+        $leaveType->update($request->all());
+        return ['data' => new LeaveTypeResource($leaveType),
+            'message' => 'update successfully', 'code' => 200];
     }
 
     /**
@@ -65,6 +70,8 @@ class LeaveTypeController extends Controller
      */
     public function destroy(LeaveType $leaveType)
     {
-        //
+        $leaveType->delete();
+        return ['data' => null,
+            'message' => 'deleted successfully', 'code' => 200];
     }
 }

@@ -47,7 +47,7 @@ class LeaveRequestController extends Controller
         $data['employee_id'] = auth('api')->user()->id;
         $leaveRequest = LeaveRequest::create($data);
         return ['data' => new LeaveRequestResource($leaveRequest),
-            'message' => 'get data', 'code' => 200];
+            'message' => 'Created successfully', 'code' => 200];
 
     }
 
@@ -70,9 +70,14 @@ class LeaveRequestController extends Controller
      * @param  \App\Models\LeaveRequest  $leaveRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeaveRequest $leaveRequest)
+    public function update(LeaveRequestRequest $request, LeaveRequest $leaveRequest)
     {
-        //
+        $data = $request->all();
+        $data['manager_id'] = auth('api')->user()->manager_id ?? auth('api')->user()->id;
+        $data['employee_id'] = auth('api')->user()->id;
+        $leaveRequest->update($data);
+        return ['data' => new LeaveRequestResource($leaveRequest),
+        'message' => 'updated successfully', 'code' => 200];
     }
 
     /**
@@ -83,7 +88,19 @@ class LeaveRequestController extends Controller
      */
     public function destroy(LeaveRequest $leaveRequest)
     {
-        //
+        $leaveRequest->delete();
+        return ['data' => null,
+        'message' => 'delete successfully', 'code' => 200];
+    }
+    public function managerRequets()
+    {
+        $auth =  auth('api')->user();
+        if($auth->type=='manager'){
+            $requests = LeaveRequest::Where('manager_id', $auth->id)->get();
+            return LeaveRequestResource::collection($requests)->additional(['message' => 'get all data', 'code' => 200]);
+        }
+        return ['data' => null,
+        'message' => 'not authorization', 'code' => 200];
     }
 
     public function approve(ApproveRequestRequest $request, LeaveRequest $leaveRequest)
@@ -95,13 +112,13 @@ class LeaveRequestController extends Controller
         }
         $leaveRequest->update(['state'=>true,'reason'=>'']);
          return ['data' => new LeaveRequestResource($leaveRequest),
-        'message' => 'get data', 'code' => 200];
+        'message' => 'approve successfully', 'code' => 200];
     }
 
     public function refuse(RefuseRequestRequest $request,LeaveRequest $leaveRequest)
     {
         $leaveRequest->update(['state'=>false,'reason'=>$request->reason]);
          return ['data' => new LeaveRequestResource($leaveRequest),
-        'message' => 'get data', 'code' => 200];
+        'message' => 'refuse successfully', 'code' => 200];
     }
 }
