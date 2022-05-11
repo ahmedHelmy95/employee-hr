@@ -24,8 +24,8 @@ class LeaveRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'form_date' => 'required|date',
-            'to_date' => 'required|date|after:form_date',
+            'from_date' => 'required|date',
+            'to_date' => 'required|date|after:from_date',
             'description'=>'required|string',
             'leave_type_id'=>'required|exists:leave_types,id'
         ];

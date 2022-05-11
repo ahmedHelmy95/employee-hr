@@ -15,7 +15,7 @@ class CreateLeaveRequestsTable extends Migration
     {
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
-            $table->date('form_date')->default(date("Y-m-d"));
+            $table->date('from_date')->default(date("Y-m-d"));
             $table->date('to_date')->default(date("Y-m-d"));
             $table->integer('number_of_days')->unsigned()->default(0);
             $table->integer('leaves_taken')->unsigned()->default(0);
