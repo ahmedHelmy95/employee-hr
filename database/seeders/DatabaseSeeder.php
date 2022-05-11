@@ -39,6 +39,15 @@ class DatabaseSeeder extends Seeder
             ],
             [
 
+                'name' => 'employee2',
+                'email' => 'employee2@employee.com',
+                'position' => 'employee',
+                'type' => 'employee',
+                'password' => bcrypt(123456789),
+                "created_at" => now(), "updated_at" => now(),
+            ],
+            [
+
                 'name' => 'hr',
                 'email' => 'hr@employee.com',
                 'position' => 'hr',

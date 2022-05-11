@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\AttendanceEmp;
-use App\Http\Resources\CheckResource;
-use App\Models\Attendance;
-use App\Models\Check;
-use App\Models\Employee;
-use App\Models\Leave;
 use App\Models\User;
+use App\Models\Check;
+use App\Models\Leave;
+use App\Models\Employee;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AttendanceEmp;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\CheckResource;
 
 class ApiController extends Controller
 {
@@ -20,7 +21,8 @@ class ApiController extends Controller
         $employee = auth('api')->user();
         if ($employee) {
             if (null == Check::whereEmployeeId($employee->id)->latest()->first()) {
-                ApiController::newAttandance($employee);
+                $check = ApiController::newAttandance($employee);
+                return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
             } else {
                 if (Check::whereEmployeeId($employee->id)->latest()->first()->check_out !== null) {
                     $check = ApiController::newAttandance($employee);
