@@ -14,6 +14,7 @@ class LeaveRequestResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($this->from_date);
         return [
             'id' => $this->id,
             'description' => $this->description,
@@ -27,6 +28,8 @@ class LeaveRequestResource extends JsonResource
             'state'=>$this->state,
             'status'=>$this->status,
             'job_title' => $this->employee->position,
+            'employee_image' => 'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
+            'number_of_days' => $this->number_of_days,
             'reason'=>$this->reason,
             "leave_type" => $this->leaveType->name,
             'created_at' => $this->created_at
