@@ -17,7 +17,7 @@ class LeaveTypeController extends Controller
     public function index()
     {
         $types = LeaveType::all();
-        return LeaveTypeResource::collection($types);
+        return LeaveTypeResource::collection($types)->additional(['message' => 'get all data', 'code' => 200]);
     }
 
     
