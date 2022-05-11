@@ -107,8 +107,9 @@ class LeaveRequestController extends Controller
         'message' => 'not authorization', 'code' => 200];
     }
 
-    public function approve(ApproveRequestRequest $request, LeaveRequest $leaveRequest)
+    public function approve(ApproveRequestRequest $request)
     {
+        $leaveRequest = LeaveRequest::findOrFail($request->request_id);
         $auth = auth('api')->user();
         if($auth->type == 'employee' || $auth->id !== $leaveRequest->manager_id){
             return ['data' => null,
@@ -119,8 +120,9 @@ class LeaveRequestController extends Controller
         'message' => 'approve successfully', 'code' => 200];
     }
 
-    public function refuse(RefuseRequestRequest $request,LeaveRequest $leaveRequest)
+    public function refuse(RefuseRequestRequest $request)
     {
+        $leaveRequest = LeaveRequest::findOrFail($request->request_id);
         $leaveRequest->update(['status'=>'rejected','reason'=>$request->reason]);
          return ['data' => new LeaveRequestResource($leaveRequest),
         'message' => 'refuse successfully', 'code' => 200];

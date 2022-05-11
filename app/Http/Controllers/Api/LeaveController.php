@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Leave;
-use Illuminate\Http\Request;
-use App\Http\Requests\LeaveRequest;
+use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaveResource;
+use App\Http\Requests\Api\LeaveRequest;
 
 class LeaveController extends Controller
 {
@@ -31,8 +31,8 @@ class LeaveController extends Controller
     public function store(LeaveRequest $request)
     {
         $data=$request->all();
-        $data['creator_id'] = auth('api')->id();
-        LeaveRequest::create($data);
+        $data['creator_id'] = auth('api')->user()->id;
+        Leave::create($data);
         return ['data' =>null,
             'message' => 'Created successfully', 'code' => 200];
     }
@@ -43,8 +43,9 @@ class LeaveController extends Controller
      * @param  \App\Models\Leave  $leave
      * @return \Illuminate\Http\Response
      */
-    public function show(Leave $leave)
+    public function show($id)
     {
+        $leave = Leave::findOrFail($id);
         return ['data' => new LeaveResource($leave),
             'message' => 'get data', 'code' => 200];
     }
@@ -58,8 +59,9 @@ class LeaveController extends Controller
      * @param  \App\Models\Leave  $leave
      * @return \Illuminate\Http\Response
      */
-    public function update(LeaveRequest $request, Leave $leave)
+    public function update(LeaveRequest $request, $id)
     {
+        $leave = Leave::findOrFail($id);
         $data=$request->all();
         $data['creator_id'] = auth('api')->id();
         $leave->update($data);
@@ -73,8 +75,9 @@ class LeaveController extends Controller
      * @param  \App\Models\Leave  $leave
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Leave $leave)
+    public function destroy($id)
     {
+        $leave = Leave::findOrFail($id);
         $leave->delete();
         return ['data' => null,
         'message' => 'updated successfully', 'code' => 200];

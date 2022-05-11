@@ -17,6 +17,7 @@ class AddDescriptionToLeaves extends Migration
             $table->text('description')->nullable();
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('leaves_taken')->unsigned();
             
         });
     }

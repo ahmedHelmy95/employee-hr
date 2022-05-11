@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +26,8 @@ class LeaveRequest extends FormRequest
         return [
             'description'=>'required',
             'leave_type_id' => 'required',
-            'employee_id'=>'required'
+            'employee_id'=>'required',
+            'leaves_taken' => 'required'
         ];
     }
 }

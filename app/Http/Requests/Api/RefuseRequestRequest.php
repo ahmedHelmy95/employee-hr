@@ -24,7 +24,8 @@ class RefuseRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason' => 'required|string'
+            'reason' => 'required|string',
+            'request_id'=>'required|exists:leave_requests,id'
         ];
     }
 }

@@ -24,7 +24,7 @@ class ApproveRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'request_id'=>'required|exists:leave_requests,id'
         ];
     }
 }
