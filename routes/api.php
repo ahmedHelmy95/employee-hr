@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuhtController;
 use App\Http\Controllers\Api\LeaveTypeController;
 use App\Http\Controllers\Api\LeaveRequestController;
