@@ -16,9 +16,8 @@ class AddDescriptionToLeaves extends Migration
         Schema::table('leaves', function (Blueprint $table) {
             $table->text('description')->nullable();
             $table->integer('creator_id')->unsigned();
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('leaves_taken')->unsigned();
-            
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,8 +29,8 @@ class AddDescriptionToLeaves extends Migration
     public function down()
     {
         Schema::table('leaves', function (Blueprint $table) {
-            $table->dropColumn('description');
-            $table->dropColumn('creator_id');
+          
         });
+      
     }
 }
