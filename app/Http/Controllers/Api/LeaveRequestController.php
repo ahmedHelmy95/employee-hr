@@ -88,7 +88,12 @@ class LeaveRequestController extends Controller
 
     public function approve(ApproveRequestRequest $request, LeaveRequest $leaveRequest)
     {
-         $leaveRequest->update(['state'=>true]);
+        $auth = auth('api')->user();
+        if($auth->type == 'employee' || $auth->id !== $leaveRequest->manager_id){
+            return ['data' => null,
+        'message' => 'not access', 'code' => 200];
+        }
+        $leaveRequest->update(['state'=>true,'reason'=>'']);
          return ['data' => new LeaveRequestResource($leaveRequest),
         'message' => 'get data', 'code' => 200];
     }

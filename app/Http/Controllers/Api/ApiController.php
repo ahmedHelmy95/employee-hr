@@ -25,7 +25,6 @@ class ApiController extends Controller
             $check = ApiController::newAttandance($employee);
             return response()->json(['data' => new CheckResource($check), 'message' => 'Successful in assign the leave','code'=>200], 200);
         } else if ($latest_check->check_out !== null) {
-            
             $latest_check->check_out = date("Y-m-d H:i:s");
             $latest_check->time = date("Y-m-d H:i:s");
             $latest_check->status = 'out';
