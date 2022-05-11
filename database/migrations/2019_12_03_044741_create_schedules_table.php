@@ -17,16 +17,13 @@ class CreateSchedulesTable extends Migration
             $table->Increments('id')->unsigned();
             $table->string('slug')->unique();
             $table->time('time_in');
-            $table->time('time_out');
-
+            $table->time('time_out'); 
             $table->timestamps();
         });
 
         Schema::create('schedule_employees', function (Blueprint $table) {
             $table->integer('employee_id')->unsigned();
-            $table->integer('schedule_id')->unsigned();
-          
-
+            $table->integer('schedule_id')->unsigned(); 
             $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
         });

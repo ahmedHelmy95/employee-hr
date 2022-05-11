@@ -21,8 +21,9 @@ class CreateLeavesTable extends Migration
             $table->date('check_in')->default(date("Y-m-d"));
             $table->boolean('status')->default(1);
             $table->boolean('type')->unsigned()->default(1);
-            $table->timestamps(); 
+            $table->foreignId('leave_type_id')->constrained()->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps(); 
 
            
         });
