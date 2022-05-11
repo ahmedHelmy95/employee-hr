@@ -30,6 +30,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('employees/check', [ApiController::class, 'check']);
     Route::get('employees/attendance/my-status', [ApiController::class, 'MyStatus']);
     Route::resource('leaveTypes', LeaveTypeController::class);
+    
+    Route::patch('leaveRequests/approve/{leaveRequest}', [LeaveRequestController::class,'approve']);
+    Route::patch('leaveRequests/refuse/{leaveRequest}', [LeaveRequestController::class,'refuse']);
     Route::resource('leaveRequests', LeaveRequestController::class);
     
 });

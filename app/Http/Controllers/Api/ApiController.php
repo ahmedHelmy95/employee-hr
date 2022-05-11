@@ -23,19 +23,20 @@ class ApiController extends Controller
         $latest_check = Check::whereEmployeeId($employee->id)->whereDate('check_in', Carbon::today())->first();
         if ($latest_check == null) {
             $check = ApiController::newAttandance($employee);
-            return response()->json(['data' => new CheckResource($check), 'success' => 'Successful in assign the leave'], 200);
+            return response()->json(['data' => new CheckResource($check), 'message' => 'Successful in assign the leave','code'=>200], 200);
         } else if ($latest_check->check_out !== null) {
+            
             $latest_check->check_out = date("Y-m-d H:i:s");
             $latest_check->time = date("Y-m-d H:i:s");
             $latest_check->status = 'out';
             $latest_check->save();
-            return response()->json(['data' => new CheckResource($latest_check), 'success' => 'Successful in assign the leave'], 200);
+            return response()->json(['data' => new CheckResource($latest_check), 'message' => 'Successful in assign the leave','code'=>200], 200);
         } else { 
             $latest_check->check_out = date("Y-m-d H:i:s");
             $latest_check->time = date("Y-m-d H:i:s");
             $latest_check->status = 'out';
             $latest_check->save();
-            return response()->json(['data' => new CheckResource($latest_check), 'success' => 'Successful in assign the leave'], 200);
+            return response()->json(['data' => new CheckResource($latest_check), 'message' => 'Successful in assign the leave','code'=>200], 200);
         }
 
     }
@@ -56,7 +57,7 @@ class ApiController extends Controller
         $employee = auth('api')->user();
         $check = Check::whereEmployeeId($employee->id)->latest()->first();
         return response()->json(['data' => new CheckResource($check),
-            'success' => 'latest attendance status'], 200);
+            'message' => 'latest attendance status','code'=>200], 200);
     }
 
     public function attendance(AttendanceEmp $request)
@@ -78,13 +79,13 @@ class ApiController extends Controller
 
                     $attendance->save();
                 } else {
-                    return response()->json(['error' => 'you assigned your attendance before'], 404);
+                    return response()->json(['error' => 'you assigned your attendance before','code'=>404], 404);
                 }
             } else {
-                return response()->json(['error' => 'Failed to assign the attendance'], 404);
+                return response()->json(['error' => 'Failed to assign the attendance','code'=>404], 404);
             }
         }
-        return response()->json(['success' => 'Successful in assign the attendance'], 200);
+        return response()->json(['message' => 'Successful in assign the attendance','code'=>200], 200);
 
     }
 
@@ -109,13 +110,13 @@ class ApiController extends Controller
 
                     $leave->save();
                 } else {
-                    return response()->json(['error' => 'you assigned your leave before'], 404);
+                    return response()->json(['error' => 'you assigned your leave before','code'=>404], 404);
                 }
             } else {
-                return response()->json(['error' => 'Failed to assign the leave'], 404);
+                return response()->json(['error' => 'Failed to assign the leave','code'=>404], 404);
             }
         }
-        return response()->json(['success' => 'Successful in assign the leave'], 200);
+        return response()->json(['message' => 'Successful in assign the leave','code'=>200], 200);
     }
 
 }

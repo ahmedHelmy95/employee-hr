@@ -27,27 +27,8 @@ class DatabaseSeeder extends Seeder
         $role = ['name' => 'admin', 'slug' => 'admin'];
         $iR = Role::create($role);
         DB::table('role_users')->insert(['user_id' => $user->id, 'role_id' => $iR->id]);
-        $emps = [
+        $managers = [
             [
-
-                'name' => 'employee',
-                'email' => 'employee@employee.com',
-                'position' => 'employee',
-                'type' => 'employee',
-                'password' => bcrypt(123456789),
-                "created_at" => now(), "updated_at" => now(),
-            ],
-            [
-
-                'name' => 'employee2',
-                'email' => 'employee2@employee.com',
-                'position' => 'employee',
-                'type' => 'employee',
-                'password' => bcrypt(123456789),
-                "created_at" => now(), "updated_at" => now(),
-            ],
-            [
-
                 'name' => 'hr',
                 'email' => 'hr@employee.com',
                 'position' => 'hr',
@@ -64,7 +45,40 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt(123456789),
                 "created_at" => now(), "updated_at" => now(),
             ],
+            [
 
+                'name' => 'manager2',
+                'email' => 'manager2@employee.com',
+                'position' => 'manager2',
+                'type' => 'manager',
+                'password' => bcrypt(123456789),
+                "created_at" => now(), "updated_at" => now(),
+            ],
+            
+
+        ];
+        DB::table('users')->insert($managers);
+        $emps = [
+            [
+
+                'name' => 'employee',
+                'email' => 'employee@employee.com',
+                'position' => 'employee',
+                'type' => 'employee',
+                'manager_id'=>2,
+                'password' => bcrypt(123456789),
+                "created_at" => now(), "updated_at" => now(),
+            ],
+            [
+
+                'name' => 'employee2',
+                'email' => 'employee2@employee.com',
+                'position' => 'employee',
+                'type' => 'employee',
+                'manager_id'=>3,
+                'password' => bcrypt(123456789),
+                "created_at" => now(), "updated_at" => now(),
+            ],
         ];
         DB::table('users')->insert($emps);
 
