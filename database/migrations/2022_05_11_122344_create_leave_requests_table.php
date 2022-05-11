@@ -22,6 +22,7 @@ class CreateLeaveRequestsTable extends Migration
             $table->text('description')->nullable();
             $table->text('reason')->nullable();
             $table->boolean('state')->default(false);
+             
             $table->integer('manager_id')->unsigned();
             $table->integer('employee_id')->unsigned();
             $table->foreignId('leave_type_id')->constrained()->onDelete('cascade');

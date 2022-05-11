@@ -17,6 +17,7 @@ class CreateLeavesTable extends Migration
             $table->Increments('id'); 
             $table->integer('employee_id')->unsigned();
             $table->boolean('state')->default(0);
+            
             $table->time('check_out')->default(date("H:i:s"));
             $table->date('check_in')->default(date("Y-m-d"));
             $table->boolean('status')->default(1);

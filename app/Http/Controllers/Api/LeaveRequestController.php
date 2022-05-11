@@ -92,11 +92,15 @@ class LeaveRequestController extends Controller
         return ['data' => null,
         'message' => 'delete successfully', 'code' => 200];
     }
-    public function managerRequets()
+    public function managerRequets(Request $request)
     {
         $auth =  auth('api')->user();
-        if($auth->type=='manager'){
-            $requests = LeaveRequest::Where('manager_id', $auth->id)->get();
+        if($auth->type=='manager'){ 
+            $query = LeaveRequest::query();
+            $query->when($request->types,function($q) use($request){
+                $q->whereIn('status',$request->types);
+            });
+            $requests =  $query->where('manager_id', $auth->id)->paginate(10);
             return LeaveRequestResource::collection($requests)->additional(['message' => 'get all data', 'code' => 200]);
         }
         return ['data' => null,
@@ -110,14 +114,14 @@ class LeaveRequestController extends Controller
             return ['data' => null,
         'message' => 'not access', 'code' => 200];
         }
-        $leaveRequest->update(['state'=>true,'reason'=>'']);
+        $leaveRequest->update(['status'=>'approved','reason'=>'']);
          return ['data' => new LeaveRequestResource($leaveRequest),
         'message' => 'approve successfully', 'code' => 200];
     }
 
     public function refuse(RefuseRequestRequest $request,LeaveRequest $leaveRequest)
     {
-        $leaveRequest->update(['state'=>false,'reason'=>$request->reason]);
+        $leaveRequest->update(['status'=>'rejected','reason'=>$request->reason]);
          return ['data' => new LeaveRequestResource($leaveRequest),
         'message' => 'refuse successfully', 'code' => 200];
     }
