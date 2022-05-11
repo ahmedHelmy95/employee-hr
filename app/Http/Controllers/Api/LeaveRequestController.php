@@ -46,7 +46,7 @@ class LeaveRequestController extends Controller
         $data['manager_id'] = auth('api')->user()->manager_id ?? auth('api')->user()->id;
         $data['employee_id'] = auth('api')->user()->id;
         $leaveRequest = LeaveRequest::create($data);
-        return ['data' => new LeaveRequestResource($leaveRequest),
+        return ['data' => null,
             'message' => 'Created successfully', 'code' => 200];
 
     }
