@@ -84,13 +84,12 @@ class LeaveController extends Controller
         'message' => 'updated successfully', 'code' => 200];
     }
 
-    public function getLeaveSummary()
+    public function getLeaveSummary($id=null)
     {
-        $id = auth('api')->user()->id;
-        $leaves = Leave::with(['leaveType.leaveRequests'=>function($q) use($id) {
-            $q->where('employee_id',$id)->where('status','approved');
-        }])->where('employee_id',$id)->get(); 
-
+        $emp_id = $id==null ? auth('api')->user()->id : $id;
+        $leaves = Leave::with(['leaveType.leaveRequests'=>function($q) use($emp_id) {
+            $q->where('employee_id',$emp_id)->where('status','approved');
+        }])->where('employee_id',$emp_id)->get(); 
         return  LeaveSummaryResource::collection($leaves)->additional(['message' => 'get all data', 'code' => 200]);
 
     }

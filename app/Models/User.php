@@ -49,12 +49,12 @@ class User extends Authenticatable
 
 
     protected $fillable = [
-        'name', 'email', 'password', 'pin_code',
+        'name', 'email', 'password'  
     ];
 
   
     protected $hidden = [
-        'pin_code','password', 'remember_token',
+         'password', 'remember_token',
     ];
 
   

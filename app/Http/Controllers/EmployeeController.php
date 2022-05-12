@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         $employee->name = $request->name;
         $employee->position = $request->position;
         $employee->email = $request->email;
-        $employee->pin_code = bcrypt($request->pin_code);
+         
         $employee->save();
 
         if($request->schedule){
@@ -51,7 +51,7 @@ class EmployeeController extends Controller
         $employee->name = $request->name;
         $employee->position = $request->position;
         $employee->email = $request->email;
-        $employee->pin_code = bcrypt($request->pin_code);
+        
         $employee->save();
 
         if ($request->schedule) {

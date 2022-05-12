@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->Increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('pin_code')->nullable();
+             
             $table->enum('type',['admin','hr','employee','manager'])->default('employee');
              
             $table->integer('manager_id')->unsigned()->nullable();

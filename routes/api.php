@@ -34,6 +34,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::patch('leaveRequests/refuse', [LeaveRequestController::class,'refuse']);
     Route::get('manager/requests', [LeaveRequestController::class,'managerRequets']);
     Route::resource('leaveRequests', LeaveRequestController::class);
-    Route::get('getLeaveSummary',[LeaveController::class,'getLeaveSummary']);
+    Route::get('getLeaveSummary/{id?}',[LeaveController::class,'getLeaveSummary']);
     
 });

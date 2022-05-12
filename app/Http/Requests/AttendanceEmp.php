@@ -25,7 +25,7 @@ class AttendanceEmp extends FormRequest
     {
         return [
             'email' => 'required|string|email|max:255|exists:employees',
-            'pin_code' => 'required|numeric|min:4',
+             
         ];
     }
 }
