@@ -12,4 +12,17 @@ class Leave extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
+
+   /**
+     * Get the manager that owns the LeaveRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function leaveType()
+    {
+        return $this->belongsTo(LeaveType::class, 'leave_type_id', 'id');
+    }
+
+
+    
 }

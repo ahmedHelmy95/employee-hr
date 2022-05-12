@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaveResource;
 use App\Http\Requests\Api\LeaveRequest;
+use App\Http\Resources\LeaveSummaryResource;
 
 class LeaveController extends Controller
 {
@@ -85,6 +86,12 @@ class LeaveController extends Controller
 
     public function getLeaveSummary()
     {
-        dd('sssss');
+        $id = auth('api')->user()->id;
+        $leaves = Leave::with(['leaveType.leaveRequests'=>function($q) use($id) {
+            $q->where('employee_id',$id)->where('status','approved');
+        }])->where('employee_id',$id)->get(); 
+
+        return  LeaveSummaryResource::collection($leaves)->additional(['message' => 'get all data', 'code' => 200]);
+
     }
 }

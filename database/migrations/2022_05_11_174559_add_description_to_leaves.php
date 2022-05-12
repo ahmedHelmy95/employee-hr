@@ -16,7 +16,7 @@ class AddDescriptionToLeaves extends Migration
         Schema::table('leaves', function (Blueprint $table) {
             $table->text('description')->nullable();
             $table->integer('creator_id')->unsigned();
-            $table->integer('leaves_taken')->unsigned();
+            $table->integer('number_of_days')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

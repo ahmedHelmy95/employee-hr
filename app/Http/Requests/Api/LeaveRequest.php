@@ -27,7 +27,7 @@ class LeaveRequest extends FormRequest
             'description'=>'required',
             'leave_type_id' => 'required',
             'employee_id'=>'required',
-            'leaves_taken' => 'required'
+            'number_of_days' => 'required'
         ];
     }
 }
